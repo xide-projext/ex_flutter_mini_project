@@ -1,0 +1,11 @@
+{
+    "users": [
+      { "id": 1, "email": "abc@abc.com", "password": "enc_password",
+        "name" : "Hong Seungwoo", "tier" : "BEGINNER", "playgroundId" : 1,
+        "tel" : "010-9020-7775", "start_year": "2023", "teamId": 1 }
+    ],
+    "playgrounds": [
+      { "id": 1, "name": "연세대 제1경기장"}
+    ],
+    "teams": { "id" : 1, "name": "블루블루팀" }
+  }
