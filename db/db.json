@@ -1,6 +1,6 @@
 {
     "users": [
-      { "id": 1, "email": "abc@abc.com", "password": "enc_password",
+      { "id": 1, "email": "abc@abc.com",
         "name" : "Hong Seungwoo", "tier" : "BEGINNER", "playgroundId" : 1,
         "tel" : "010-9020-7775", "start_year": "2023", "teamId": 1 }
     ],

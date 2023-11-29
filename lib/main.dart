@@ -1,6 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import './model/user.dart';
+import './provider/userProvider.dart';
 
 // We create a "provider", which will store a value (here "Hello world").
 // By using a provider, this allows us to mock/override the value exposed.
@@ -18,18 +20,23 @@ void main() {
 }
 
 // Extend ConsumerWidget instead of StatelessWidget, which is exposed by Riverpod
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String value = ref.watch(helloWorldProvider);
+  Widget build(BuildContext context) {
+    return Consumer(builder: (context, ref, child) {
+      final AsyncValue<User> user = ref.watch(userProvider);
 
-    return MaterialApp(
-      home: Scaffold(
+      return MaterialApp(
+          home: Scaffold(
         appBar: AppBar(title: const Text('Example')),
         body: Center(
-          child: Text(value),
+          child: switch (user) {
+            AsyncData(:final value) => Text('User: ${value.name}'),
+            AsyncError() => const Text('Oops, something unexpected happened'),
+            _ => const CircularProgressIndicator(),
+          },
         ),
-      ),
-    );
+      ));
+    });
   }
 }
