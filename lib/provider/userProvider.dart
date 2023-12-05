@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import '/model/user.dart';
+import '/models/user.dart';
 
 class AsyncUsersNotifier extends AsyncNotifier<List<User>> {
   Future<List<User>> _fetchUsers() async {
@@ -44,7 +44,8 @@ class AsyncUsersNotifier extends AsyncNotifier<List<User>> {
   Future<void> toggle(String userId) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await http.patch(Uri.http('localhost:3000', '/users/$userId'), 
+      await http.patch(
+        Uri.http('localhost:3000', '/users/$userId'),
         headers: {'Content-Type': 'application/json'},
         body: <String, dynamic>{'completed': true},
       );
