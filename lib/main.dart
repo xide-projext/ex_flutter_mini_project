@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '/provider/userProvider.dart';
+import 'package:ex_mini_project/provider/userProvider.dart';
+import 'package:ex_mini_project/models/user.dart';
 
 // We create a "provider", which will store a value (here "Hello world").
 // By using a provider, this allows us to mock/override the value exposed.
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final asyncUsers = ref.watch(asyncUsersProvider);
+      final userNotifier = ref.read(asyncUsersProvider.notifier);
+
+      TextEditingController nameController = TextEditingController();
 
       return MaterialApp(
           home: Scaffold(
@@ -35,6 +39,28 @@ class MyApp extends StatelessWidget {
                   ListTile(
                     title: Text(user.name!),
                   ),
+                  // 추가: 사용자 추가 폼
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          labelText: 'Name',
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          final newUser = User(name: nameController.text);
+                          userNotifier.addUser(newUser);
+                          nameController.clear();
+                        },
+                        child: Text('Add User'),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           AsyncError(:final error) => Text('Error: $error'),
