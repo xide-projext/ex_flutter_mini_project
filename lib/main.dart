@@ -6,7 +6,7 @@ import './provider/userProvider.dart';
 
 // We create a "provider", which will store a value (here "Hello world").
 // By using a provider, this allows us to mock/override the value exposed.
-final helloWorldProvider = Provider((_) => 'Hello world');
+// final helloWorldProvider = Provider((_) => 'Hello world');
 
 void main() {
   runApp(
@@ -24,18 +24,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final AsyncValue<User> user = ref.watch(userProvider);
+      final asyncUsers = ref.watch(asyncUsersProvider);
 
       return MaterialApp(
           home: Scaffold(
         appBar: AppBar(title: const Text('Example')),
         body: Center(
-          child: switch (user) {
-            AsyncData(:final value) => Text('User: ${value.name}'),
-            AsyncError() => const Text('Oops, something unexpected happened'),
-            _ => const CircularProgressIndicator(),
-          },
-        ),
+            child: switch (asyncUsers) {
+          AsyncData(:final value) => ListView(
+              children: [
+                for (final user in value)
+                  ListTile(
+                    title: Text(user.name),
+                  ),
+              ],
+            ),
+          AsyncError(:final error) => Text('Error: $error'),
+          _ => const Center(child: CircularProgressIndicator()),
+        }),
       ));
     });
   }

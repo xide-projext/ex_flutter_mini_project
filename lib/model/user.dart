@@ -1,4 +1,3 @@
-
 /// The response of the `GET /users/` endpoint.
 class User {
   User({
@@ -12,7 +11,7 @@ class User {
 
   /// Convert a JSON object into an [User] instance.
   /// This enables type-safe reading of the API response.
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(dynamic json) {
     print('User');
     print(json['name']);
     return User(
