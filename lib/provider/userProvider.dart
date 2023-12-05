@@ -47,7 +47,7 @@ class AsyncUsersNotifier extends AsyncNotifier<List<User>> {
       await http.patch(
         Uri.http('localhost:3000', '/users/$userId'),
         headers: {'Content-Type': 'application/json'},
-        body: <String, dynamic>{'completed': true},
+        body: <String, dynamic>{'isActive': true},
       );
       return _fetchUsers();
     });
