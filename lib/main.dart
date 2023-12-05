@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               children: [
                 for (final user in value)
                   ListTile(
-                    title: Text(user.name),
+                    title: Text(user.name!),
                   ),
               ],
             ),

@@ -1,31 +1,48 @@
-/// The response of the `GET /users/` endpoint.
 class User {
-  User({
-    required this.id,
-    required this.email,
-    required this.name,
-    required this.tier,
-    required this.tel,
-    required this.startYear,
-  });
+  int? id;
+  String? email;
+  String? name;
+  String? tier;
+  int? playgroundId;
+  bool? isActive;
+  String? tel;
+  int? startYear;
+  int? teamId;
 
-  /// Convert a JSON object into an [User] instance.
-  /// This enables type-safe reading of the API response.
-  factory User.fromJson(dynamic json) {
-    return User(
-      id: json['id'] as int,
-      email: json['email'] as String,
-      name: json['name'] as String,
-      tier: json['tier'] as String,
-      tel: json['tel'] as String,
-      startYear: json['start_year'] as int,
-    );
+  User(
+      {id,
+      email,
+      name,
+      tier,
+      playgroundId,
+      isActive,
+      tel,
+      startYear,
+      teamId});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    email = json['email'];
+    name = json['name'];
+    tier = json['tier'];
+    playgroundId = json['playgroundId'];
+    isActive = json['isActive'];
+    tel = json['tel'];
+    startYear = json['start_year'];
+    teamId = json['teamId'];
   }
 
-  final int id;
-  final String email;
-  final String name;
-  final String tier;
-  final String tel;
-  final int startYear;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['email'] = email;
+    data['name'] = name;
+    data['tier'] = tier;
+    data['playgroundId'] = playgroundId;
+    data['isActive'] = isActive;
+    data['tel'] = tel;
+    data['start_year'] = startYear;
+    data['teamId'] = teamId;
+    return data;
+  }
 }
