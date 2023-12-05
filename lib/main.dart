@@ -31,54 +31,56 @@ class MyApp extends StatelessWidget {
 
       return MaterialApp(
           home: Scaffold(
-        appBar: AppBar(title: const Text('Example')),
-        body: ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(
-        physics: const BouncingScrollPhysics(),
-        dragDevices: {
-          PointerDeviceKind.touch,
-          PointerDeviceKind.mouse,
-          PointerDeviceKind.trackpad
-        },
-      ),
-      child: RefreshIndicator(
-        onRefresh: () => ref.refresh(asyncUsersProvider.future), // RefreshIndicator를 사용하여 화면을 아래로 당겨 새로고침 가능
-        child: Center(
-            child: switch (asyncUsers) {
-          AsyncData(:final value) => ListView(
-              children: [
-                for (final user in value)
-                  ListTile(
-                    title: Text(user.name!),
+              appBar: AppBar(title: const Text('Example')),
+              body: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(
+                    physics: const BouncingScrollPhysics(),
+                    dragDevices: {
+                      PointerDeviceKind.touch,
+                      PointerDeviceKind.mouse,
+                      PointerDeviceKind.trackpad
+                    },
                   ),
-                  // 추가: 사용자 추가 폼
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          labelText: 'Name',
+                  child: RefreshIndicator(
+                    onRefresh: () => ref.refresh(asyncUsersProvider
+                        .future), // RefreshIndicator를 사용하여 화면을 아래로 당겨 새로고침 가능
+                    child: Center(
+                        child: switch (asyncUsers) {
+                      AsyncData(:final value) => ListView(
+                          children: [
+                            for (final user in value)
+                              ListTile(
+                                title: Text(user.name!),
+                              ),
+                            // 추가: 사용자 추가 폼
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  TextField(
+                                    controller: nameController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Name',
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      final newUser =
+                                          User(name: nameController.text);
+                                      userNotifier.addUser(newUser);
+                                      nameController.clear();
+                                    },
+                                    child: Text('Add User'),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          final newUser = User(name: nameController.text);
-                          userNotifier.addUser(newUser);
-                          nameController.clear();
-                        },
-                        child: Text('Add User'),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          AsyncError(:final error) => Text('Error: $error'),
-          _ => const Center(child: CircularProgressIndicator()),
-        }),
-      ))));
+                      AsyncError(:final error) => Text('Error: $error'),
+                      _ => const Center(child: CircularProgressIndicator()),
+                    }),
+                  ))));
     });
   }
 }
