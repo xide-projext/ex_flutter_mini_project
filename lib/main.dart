@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
                                 children: [
                                   TextField(
                                     controller: nameController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Name',
                                     ),
                                   ),
@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
                                       userNotifier.addUser(newUser);
                                       nameController.clear();
                                     },
-                                    child: Text('Add User'),
+                                    child: const Text('Add User'),
                                   ),
                                 ],
                               ),
