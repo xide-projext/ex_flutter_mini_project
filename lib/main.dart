@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ex_mini_project/provider/userProvider.dart';
@@ -31,7 +32,18 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
           home: Scaffold(
         appBar: AppBar(title: const Text('Example')),
-        body: Center(
+        body: ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        physics: const BouncingScrollPhysics(),
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.trackpad
+        },
+      ),
+      child: RefreshIndicator(
+        onRefresh: () => ref.refresh(asyncUsersProvider.future), // RefreshIndicator를 사용하여 화면을 아래로 당겨 새로고침 가능
+        child: Center(
             child: switch (asyncUsers) {
           AsyncData(:final value) => ListView(
               children: [
@@ -66,7 +78,7 @@ class MyApp extends StatelessWidget {
           AsyncError(:final error) => Text('Error: $error'),
           _ => const Center(child: CircularProgressIndicator()),
         }),
-      ));
+      ))));
     });
   }
 }
