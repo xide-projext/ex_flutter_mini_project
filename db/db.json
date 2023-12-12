@@ -32,6 +32,39 @@
       "tel": null,
       "start_year": null,
       "teamId": null
+    },
+    {
+      "id": 4,
+      "email": null,
+      "name": "kim2",
+      "tier": null,
+      "playgroundId": null,
+      "isActive": null,
+      "tel": null,
+      "start_year": null,
+      "teamId": null
+    },
+    {
+      "id": 5,
+      "email": null,
+      "name": "Kim 3",
+      "tier": null,
+      "playgroundId": null,
+      "isActive": null,
+      "tel": null,
+      "startYear": null,
+      "teamId": null
+    },
+    {
+      "id": 6,
+      "email": null,
+      "name": "kim 4",
+      "tier": null,
+      "playgroundId": null,
+      "isActive": null,
+      "tel": null,
+      "startYear": null,
+      "teamId": null
     }
   ],
   "playgrounds": [
@@ -43,5 +76,52 @@
   "teams": {
     "id": 1,
     "name": "블루블루팀"
-  }
+  },
+  "matchs": [
+    {
+      "id": 1,
+      "player1": 1,
+      "player2": 2,
+      "player1_score": 10,
+      "player2_score": 22,
+      "playgroundId": 1,
+      "created_at": "2023-12-06 08:03:00"
+    },
+    {
+      "id": 2,
+      "player1": 1,
+      "player2": 2,
+      "player1_score": 9,
+      "player2_score": 8,
+      "playgroundId": 1,
+      "created_at": "2023-12-06 10:10:00"
+    },
+    {
+      "id": 3,
+      "player1": 2,
+      "player2": null,
+      "player1Score": null,
+      "player2Score": null,
+      "playgroundId": null,
+      "createdAt": null
+    },
+    {
+      "id": 4,
+      "player1": 3,
+      "player2": null,
+      "player1Score": null,
+      "player2Score": null,
+      "playgroundId": null,
+      "createdAt": null
+    },
+    {
+      "id": 5,
+      "player1": 4,
+      "player2": null,
+      "player1Score": null,
+      "player2Score": null,
+      "playgroundId": null,
+      "createdAt": null
+    }
+  ]
 }

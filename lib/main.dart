@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ex_mini_project/provider/userProvider.dart';
-import 'package:ex_mini_project/models/user.dart';
+import 'package:ex_mini_project/provider/matchProvider.dart';
+import 'package:ex_mini_project/models/match.dart';
 
 // We create a "provider", which will store a value (here "Hello world").
 // By using a provider, this allows us to mock/override the value exposed.
@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final asyncUsers = ref.watch(asyncUsersProvider);
-      final userNotifier = ref.read(asyncUsersProvider.notifier);
+      final asyncMatchs = ref.watch(asyncMatchsProvider);
+      final userNotifier = ref.read(asyncMatchsProvider.notifier);
 
       TextEditingController nameController = TextEditingController();
 
@@ -42,15 +42,15 @@ class MyApp extends StatelessWidget {
                     },
                   ),
                   child: RefreshIndicator(
-                    onRefresh: () => ref.refresh(asyncUsersProvider
+                    onRefresh: () => ref.refresh(asyncMatchsProvider
                         .future), // RefreshIndicator를 사용하여 화면을 아래로 당겨 새로고침 가능
                     child: Center(
-                        child: switch (asyncUsers) {
+                        child: switch (asyncMatchs) {
                       AsyncData(:final value) => ListView(
                           children: [
                             for (final user in value)
                               ListTile(
-                                title: Text(user.name!),
+                                title: Text("${user.player1}"),
                               ),
                             // 추가: 사용자 추가 폼
                             Padding(
@@ -65,12 +65,12 @@ class MyApp extends StatelessWidget {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      final newUser =
-                                          User(name: nameController.text);
-                                      userNotifier.addUser(newUser);
+                                      final newMatch =
+                                          Match(player1: int.parse(nameController.text));
+                                      userNotifier.addMatch(newMatch);
                                       nameController.clear();
                                     },
-                                    child: const Text('Add User'),
+                                    child: const Text('Add Match'),
                                   ),
                                 ],
                               ),
