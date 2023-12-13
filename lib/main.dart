@@ -1,8 +1,10 @@
-import 'package:flutter/gestures.dart';
+import 'package:ex_mini_project/presentations/game_record_page.dart';
+import 'package:ex_mini_project/presentations/game_create_page.dart';
+import 'package:ex_mini_project/presentations/game_join_page.dart';
+import 'package:ex_mini_project/presentations/game_list_page.dart';
+import 'package:ex_mini_project/presentations/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ex_mini_project/provider/matchProvider.dart';
-import 'package:ex_mini_project/models/match.dart';
 
 // We create a "provider", which will store a value (here "Hello world").
 // By using a provider, this allows us to mock/override the value exposed.
@@ -24,63 +26,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final asyncMatchs = ref.watch(asyncMatchsProvider);
-      final userNotifier = ref.read(asyncMatchsProvider.notifier);
-
-      TextEditingController nameController = TextEditingController();
-
       return MaterialApp(
-          home: Scaffold(
-              appBar: AppBar(title: const Text('Example')),
-              body: ScrollConfiguration(
-                  behavior: ScrollConfiguration.of(context).copyWith(
-                    physics: const BouncingScrollPhysics(),
-                    dragDevices: {
-                      PointerDeviceKind.touch,
-                      PointerDeviceKind.mouse,
-                      PointerDeviceKind.trackpad
-                    },
-                  ),
-                  child: RefreshIndicator(
-                    onRefresh: () => ref.refresh(asyncMatchsProvider
-                        .future), // RefreshIndicator를 사용하여 화면을 아래로 당겨 새로고침 가능
-                    child: Center(
-                        child: switch (asyncMatchs) {
-                      AsyncData(:final value) => ListView(
-                          children: [
-                            for (final user in value)
-                              ListTile(
-                                title: Text("${user.player1}"),
-                              ),
-                            // 추가: 사용자 추가 폼
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  TextField(
-                                    controller: nameController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Name',
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      final newMatch =
-                                          Match(player1: int.parse(nameController.text));
-                                      userNotifier.addMatch(newMatch);
-                                      nameController.clear();
-                                    },
-                                    child: const Text('Add Match'),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      AsyncError(:final error) => Text('Error: $error'),
-                      _ => const Center(child: CircularProgressIndicator()),
-                    }),
-                  ))));
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case '/':
+              return MaterialPageRoute(builder: (context) => LoginPage());
+            case '/games/create':
+              return MaterialPageRoute(builder: (context) => CreateGamePage());
+            case '/games':
+              return MaterialPageRoute(builder: (context) => GameListPage());
+            case '/games/join':
+              return MaterialPageRoute(builder: (context) => JoinGamePage());
+            case '/games/record':
+              // id 추출
+              final String gameId = settings.arguments as String;
+              return MaterialPageRoute(
+                builder: (context) => ScoreRecordPage(gameId: gameId),
+              );
+            default:
+              return MaterialPageRoute(builder: (context) => LoginPage());
+          }
+      //   routes: {
+      //   '/': (context) => LoginPage(),
+      //   '/games/create': (context) => CreateGamePage(),
+      //   '/games/': (context) => GameListPage(),
+      //   '/games/join': (context) => JoinGamePage(),
+      //   '/games/:id/record': (context) => ScoreRecordPage(),
+      //   // 추가 라우트가 필요한 경우 여기에 정의
+      // }
+     });
     });
   }
 }
